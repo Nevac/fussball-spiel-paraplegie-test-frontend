@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import {useEffect, useState} from "react";
 import Unity, {UnityContext} from "react-unity-webgl";
@@ -20,23 +19,21 @@ function App() {
     unityContext.on("GameFinished", function (scorePlayer, scoreEnemy) {
       setScorePlayer(scorePlayer);
       setScoreEnemy(scoreEnemy);
-      setPageState("gameFinished");
-      console.log("Score");
+      unityContext.quitUnityInstance().then(
+          () => setPageState("gameFinished")
+      );
     });
   }, []);
 
-
   return (
-    <div className="App">
+      <div className="App">
         {pageState === "gameRunning" && <Unity unityContext={unityContext}
-        style={{
-          height: 405,
-          width: 720,
-          border: "2px solid black",
-          background: "grey",
-        }}/>}
+                                               style={{
+                                                 height: 720,
+                                                 width: 1280,
+                                               }}/>}
         {pageState === "gameFinished" && <p>{`Game Over! Player: ${scorePlayer} - Enemy: ${scoreEnemy}`}</p>}
-    </div>
+      </div>
   );
 }
 
