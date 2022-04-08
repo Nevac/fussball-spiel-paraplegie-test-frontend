@@ -15,6 +15,8 @@ function App() {
   const [scorePlayer, setScorePlayer] = useState();
   const [scoreEnemy, setScoreEnemy] = useState();
 
+  unityContext.setFullscreen(true);
+
   useEffect(function () {
     unityContext.on("GameFinished", function (scorePlayer, scoreEnemy) {
       setScorePlayer(scorePlayer);
@@ -22,6 +24,13 @@ function App() {
       unityContext.quitUnityInstance().then(
           () => setPageState("gameFinished")
       );
+    });
+  }, []);
+
+  useEffect(function () {
+    unityContext.on("Minimize", function () {
+      console.log("MinimizeEvent");
+      unityContext.setFullscreen(false);
     });
   }, []);
 
